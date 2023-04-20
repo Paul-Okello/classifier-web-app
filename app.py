@@ -38,7 +38,7 @@ state = torch.load('checkpoint.pth', map_location=torch.device('cpu'))
 model.load_state_dict(state)
 
 app = Flask(__name__)
-cors = CORS(app, resources={r"/*": {"origins": "*"}})
+CORS(app)
 
 UPLOAD_FOLDER = os.path.abspath('static')
 
