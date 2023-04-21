@@ -1,4 +1,4 @@
-from flask import Flask, jsonify, request, render_template, redirect, url_for, jsonify
+from flask import Flask, jsonify, request, render_template, redirect, url_for
 from PIL import Image
 from torchvision import transforms, models
 import torch
@@ -111,6 +111,7 @@ def classify():
 
 @app.route('/api/classify', methods=['GET', 'POST'])
 def apiclassify():
+    # Add CORS headers
     if request.method == 'POST':
         # Get the image file from the request
         img = request.files['file'].read()
@@ -154,13 +155,14 @@ def apiclassify():
         # # print(img.show())
         # img.save(file_path, format='JPEG')
         # print("File saved at path:", file_path)
+        # Add headers to handle CORS
+        response = jsonify({'result': result,
+                            'probability_real': probability_real,
+                            'probability_fake': probability_fake})
+        response.headers.add('Access-Control-Allow-Origin', '*')
 
-        # Render the classify.html template with the prediction results
-        # return render_template('classify.html', file_path=filename, prediction=result,
-        #    probability_real=probability_real, probability_fake=probability_fake)
-        return jsonify({'result': result,
-                        'probability_real': probability_real,
-                        'probability_fake': probability_fake})
+        # Return the response object
+        return response
 
     # else:
     #     return render_template('classify.html')
