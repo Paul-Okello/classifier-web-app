@@ -19,4 +19,5 @@ ENV FLASK_DEBUG=0
 EXPOSE 5500
 
 # Run the command to start the gunicorn server
-CMD ["gunicorn", "--bind", "0.0.0.0:5500", "app:app"]
+CMD ["waitress-serve", "--listen=*:5500", "app:app"]
+
