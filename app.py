@@ -1,4 +1,4 @@
-from flask import Flask, jsonify, request, render_template, redirect, url_for
+from flask import Flask, jsonify, request, render_template, redirect, url_for, make_response
 from PIL import Image
 from torchvision import transforms, models
 import torch
@@ -150,17 +150,11 @@ def apiclassify():
             probability_real = round(100 - probability_fake, 2)
 
         # Save the image with a unique filename
-        # filename = str(uuid.uuid4()) + '.jpg'
-        # file_path = f"{UPLOAD_FOLDER}\{filename}"
-        # # print(img.show())
-        # img.save(file_path, format='JPEG')
-        # print("File saved at path:", file_path)
-        # Add headers to handle CORS
-        response = jsonify({'result': result,
-                            'probability_real': probability_real,
-                            'probability_fake': probability_fake})
-        response.headers.add('Access-Control-Allow-Origin', '*')
-
+        data = {'result': result,
+                'probability_real': probability_real,
+                'probability_fake': probability_fake}
+        response = make_response(jsonify(data))
+        response.headers["Access-Control-Allow-Origin"] = "*"
         # Return the response object
         return response
 
