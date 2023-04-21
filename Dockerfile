@@ -13,9 +13,10 @@ RUN pip install --trusted-host pypi.python.org -r requirements.txt
 # Set environment variables
 ENV FLASK_APP=app.py
 ENV FLASK_ENV=production
+ENV FLASK_DEBUG=0
 
 # Expose port 5500 for gunicorn
 EXPOSE 5500
 
 # Run the command to start the gunicorn server
-CMD ["gunicorn", "-w", "4", "-b", "0.0.0.0:5500", "app:app"]
+CMD ["gunicorn", "--bind", "0.0.0.0:5500", "app:app"]
