@@ -1,4 +1,4 @@
-from flask import Flask, jsonify, request, render_template, redirect, url_for, make_response
+from flask import Flask, json, request, render_template, redirect, url_for, make_response
 from PIL import Image
 from torchvision import transforms, models
 import torch
@@ -83,7 +83,7 @@ def classify():
         class_index = top_class.cpu().numpy()[0][0]
         prob = top_p.cpu().numpy()[0][0]
 
-        # Return the predicted class and probabilities
+        # Return the predicted class and probabilitiesf
         if class_index != 0:
             result = 'Real'
             probability_real = round(float(prob) * 100, 2)
@@ -153,7 +153,7 @@ def apiclassify():
         data = {'result': result,
                 'probability_real': probability_real,
                 'probability_fake': probability_fake}
-        response = make_response(jsonify(data))
+        response = make_response(json.jsonify(data))
         response.headers["Access-Control-Allow-Origin"] = "*"
         # Return the response object
         return response
@@ -168,7 +168,7 @@ def apiclassify():
 def classnames():
     # Replace this with your own list of class names
     class_names = ['Real', 'Fake']
-    return jsonify(class_names)
+    return json.jsonify(class_names)
 
 
 if __name__ == '__main__':
