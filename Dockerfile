@@ -11,8 +11,8 @@ COPY . /app
 RUN pip install --trusted-host pypi.python.org -r requirements.txt
 
 # Set environment variables
-ENV FLASK_APP app.py
-ENV FLASK_ENV production
+ENV FLASK_APP=app.py
+ENV FLASK_ENV=production
 
 # Expose port 5500 for gunicorn
 EXPOSE 5500
